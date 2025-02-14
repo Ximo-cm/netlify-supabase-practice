@@ -17,7 +17,7 @@ const dataDisplay = document.getElementById('data');
 signUpButton.addEventListener('click', async () => {
     const email = emailInput.value;
     const password = passwordInput.value;
-    const { user, error } = await supabase.auth.signUp({ email, password });
+    const { user, error } = await supabaseClient.auth.signUp({ email, password });
     if (error) {
         alert(`Error: ${error.message}`);
     } else {
@@ -29,7 +29,7 @@ signUpButton.addEventListener('click', async () => {
 logInButton.addEventListener('click', async () => {
     const email = emailInput.value;
     const password = passwordInput.value;
-    const { user, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { user, error } = await supabaseClient.auth.signInWithPassword({ email, password });
     if (error) {
         alert(`Error: ${error.message}`);
     } else {
@@ -40,7 +40,7 @@ logInButton.addEventListener('click', async () => {
 
 // Log Out Functionality
 logOutButton.addEventListener('click', async () => {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabaseClient.auth.signOut();
     if (error) {
         alert(`Error: ${error.message}`);
     } else {
@@ -51,7 +51,7 @@ logOutButton.addEventListener('click', async () => {
 
 // Fetch Data Functionality
 fetchDataButton.addEventListener('click', async () => {
-    const { data, error } = await supabase.from('example_table').select('*');
+    const { data, error } = await supabaseClient.from('example_table').select('*');
     if (error) {
         dataDisplay.innerHTML = `Error: ${error.message}`;
     } else {
@@ -66,7 +66,7 @@ const toggleAuthState = (isLoggedIn) => {
 };
 
 // Check User Authentication State on Page Load
-supabase.auth.getUser().then(({ data: { user } }) => {
+supabaseClient.auth.getUser().then(({ data: { user } }) => {
     toggleAuthState(!!user);
 });
 
